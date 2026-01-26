@@ -1,0 +1,35 @@
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CC                                                                                          AA    B                       CC
+CC                                                          CCCCCCCC                        AA                            CC
+CC   AAAAAAAAAAAAAAAAAAAA                        V          CCCCCCCC                        AAAAAAAAAAAAAAAAAAAAAAA AAAAAACC
+CC     AAAAAAAAAAAAAAAAAAAA                                 CAAAAAAC                        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACC
+CC       AAAAAAAACCCCCAAAAAAAAA                             CAAAAAAC                                                      CC
+CC                                AAAA    AAAA    AAAA    CCCCCCCCCCCC    AAAA  v  AAAA   AAAA                            CC
+CC                                AAAAAAAAAAAAAAAAAAAA    CCCCCCCCCCCC    AAAAAAAAAAAAAAAAAAAA                            CC
+CC                                CCCCCCCCCCCCCCCCCCCC   CCCCCCCCCCCCCC   CCCCCCCCCCCCCCCCCCCC                AAAAAAAAAAAACC
+CC                                    CCCCCCCCCCCC  M   CCCAAAAAAAAAACCC   B  CCCCCCCCCCCC                   APPPPPPPPPPPPCC
+CC                                    CCCCCCCCCCCCCCCCCCCCCCAAAAAAAACCCCCCCCCCCCCCCCCCCCCC                   APPPPPPPPPPPPCC
+CC                                     CCCCCCCCCCCCCCCCCCCCCCAAAAAACCCCCCCCCCCCCCCCCCCCCC                    APP     M    CC
+CC                                     CCCCCCCCCCCCCCCCCCCCCCAAAAAACCCCCCCCCCCCCCCCCCCCCC                    APP          CC
+CC                                     CCCCCCCCCCCCCCCCCCCCCCAAAAAACCCCCCCCCCCCCCCCCCCCCC                    APPAAAAAAAAAACC
+CC                                     CCCCCCCCCCCCCCCCCCCCCCCAAAACCCCCCCCCCCCCCCCCCCCCCC                    APPAAAAAAAAAACC
+CC                                      CCCCCCCCCCCCCCCCCCCCCCCAACCCCCCCCCCCCCCCCCCCCCCC                     APP          CC
+CC                                       CCCCCCCCCCCCCCCCCCCCCCAACCCCCCCCCCCCCCCCCCCCCC                      APP          CC
+CC                                        CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                       AAPPPPPPPPPPPCC
+CC                                         CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC                         AAAAAAAAAAAACC
+CC    AAAAAAA                                                                                                             CC
+CC    AA M AA                                                                                                             CC
+CC    AAAAAAA PPPPPPPPP                                       AAAA                                                        CC
+CC            PPPPPPPPP                                      AAAAAA                                                       CC
+CC            PPP    PP                                     AAAAAAAA                           AAAAAAAAAA                 CC
+CC           PPPP  V PP                                    AAAAAAAAAA                          AAAAAAAAAAAA               CC
+CC           PPPPPPPPPP                                   AAAAAAAAAAAA                         A         AA               CC
+CC           PPPPPPPPPP                                  AAAAAAAAAAAAAA                        AAA     v AA               CC
+CC                                                      AAAAAAAAAAAAAAAA                       AAAAAAAAAAAA               CC
+CC                                                     CCCCCCCCCCCCCCCCCC                      AAAAAAAAAAAA               CC
+CC       B                                                                                                                CC
+CC                                                                                                                        CC
+CC                                                                                                                        CC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC

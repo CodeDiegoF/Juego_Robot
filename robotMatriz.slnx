@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="robotMatriz/robotMatriz.vcxproj" Id="3a9f586d-dadf-4f7f-87c6-2718b4e6d8ed" />
+</Solution>
