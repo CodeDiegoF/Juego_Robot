@@ -18,6 +18,14 @@
 #include <SFML/Audio/SoundBuffer.hpp>
 
 
+
+
+
+
+
+
+
+
 using namespace sf;
 
 using namespace std;
@@ -45,9 +53,9 @@ void setupConsole() {
     SetConsoleMode(hOut, dwMode);
 }
 
-Clock reloj;
-Time tiempo = reloj.getElapsedTime();
-double tiempo_sincrono;
+//Clock reloj;
+//Time tiempo = reloj.getElapsedTime();
+//double tiempo_sincrono;
 
 
 
@@ -113,10 +121,11 @@ public:
 
         };
 
+		bool salir = false;
+		int contador = 0; //Variable para limitar la animacion
 
 
-
-        while (true) {
+        while (!salir && contador < 10) {
             system("cls");
             cout << ROJO << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 
@@ -138,13 +147,24 @@ public:
                cout << "\n";
            }
 
-            cout << RESET;
+            cout << RESET << "\n\n\t\t\t\t\t\t\t\t\t\tPresiona cualquier tecla para volver al menú...";
 
             Sleep(300);
             system("cls");
+
+           
+
+            if (_kbhit()) {       // ¿Se presionó una tecla?
+                _getch();         // Consumir la tecla
+                salir = true;     // ¡SALIR DEL BUCLE!
+            }
+
             Sleep(200);
+			contador++; // Incrementar el contador
+
+            
         }
-        _getch(); // Espera cualquier tecla
+        
         
     }
 
@@ -159,6 +179,7 @@ public:
        }
        else {
            buffer.play();
+		   buffer.setLooping(true); //Entra en bucle la musica de victoria
          
        }
 
@@ -252,10 +273,7 @@ public:
             << "\tTesoro Restantes: " << tesoroRestante
             << "\tBaterías Restantes: " << vidasRestantes << "\n";
 
-            while (true){
-
-                cout << minutos << "::" << segundos;
-            }
+      
 
         // Mostrar controles debajo del mapa
         cout << "paso: w,a,s,d    salto: i,j,k,l    bomba: g\n";
@@ -342,7 +360,7 @@ public:
         if (vida <= 0) {
             vivo = false;
             system("cls");
-            mostrarMapa();
+			//mostrarMapa(); No hace falta mostrar el mapa muerto
             animacionMuerte();
             return true;
         }
@@ -357,8 +375,9 @@ public:
                 sound4.play();
                 system("cls");
 
-                mapa[jugadory][jugadorx] = 'A';
-                mostrarMapa();
+				//No hace falta mostrar el mapa muerto
+                //mapa[jugadory][jugadorx] = 'A';
+                //mostrarMapa();
 
                 cout << "GAME OVER! Has caído en la lava\n";
                 Sleep(100);
@@ -420,100 +439,112 @@ public:
 
 int main() {
 
-
-
-  
-        
-
-
-
-    if (!buffer5.loadFromFile("inicio.wav")) { return -1; }
+    // Cargar música del menú
+    if (!buffer5.loadFromFile("inicio.wav")) {
+        cerr << "Error: No se pudo cargar inicio.wav" << endl;
+        return -1;
+    }
+    sound5.setLooping(true);
     sound5.play();
 
-   cout<<"1-JUGAR"<<endl;
-   cout<<"2-GUARDAR PARTIDA"<<endl;
-   cout<<"3-CARGAR PARTIDA"<<endl;
-   cout<<"4-SALIR"<<endl;
-   
-   int opcion;
-   cin>>opcion;
+    // BUCLE DEL MENÚ PRINCIPAL
+    while (true) {
+        system("cls");  // Limpiar pantalla ANTES de mostrar menú
 
-   switch(opcion){
-    case 1:
-        sound5.stop();
-        // ⚙️ Configurar consola para UTF-8
-        setupConsole();
+        
+        cout << "1. JUGAR\n";
+        cout << "2. GUARDAR PARTIDA\n";
+        cout << "3. CARGAR PARTIDA\n";
+        cout << "4. SALIR\n\n";
+        cout << "Selecciona una opcion: ";
 
-        if (!buffer1.loadFromFile("1-11. Route 101_.mp3")) { return -1; }
+        int opcion;
+        cin >> opcion;
+        
 
-        if (!buffer2.loadFromFile("explosion-80108.wav")) { return -1; }
+        switch (opcion) {
+        case 1: {  
+            sound5.stop();  // Detener música del menú
+            setupConsole();
 
-        if (!buffer3.loadFromFile("objeto.wav")) { return -1; }
-
-        if (!buffer4.loadFromFile("quick_fart_x.wav")) { return -1; }
-
-        Robot robot(true, 2, 2, 100.0f, 100.0f, 2, 3, 0, 4, 0, 0);
-        robot.matriz();
-
-        sound1.play();
-
-        while (true) {
-            system("cls");
-
-
-            robot.mostrarMapa();
-            robot.movimiento();
-            robot.vidaRobot();
-            robot.inventario();
-
-            while (robot.muerteQuemao()) {
-                robot.vivo = false;
+            // Cargar recursos de audio (con validación)
+            if (!buffer1.loadFromFile("1-11. Route 101_.mp3")) {
+                cout << ROJO << "Error al cargar musica de fondo" << RESET << endl;
+                _getch();
+                break;  // Volver al menú
             }
-
-            if (robot.muerte()) break;
-
-
-            if (robot.muerteQuemao()) {
+            if (!buffer2.loadFromFile("explosion-80108.wav")) {
+                cout << ROJO << "Error al cargar sonido de explosion" << RESET << endl;
+                _getch();
+                break;
+            }
+            if (!buffer3.loadFromFile("objeto.wav")) {
+                cout << ROJO << "Error al cargar sonido de objeto" << RESET << endl;
+                _getch();
+                break;
+            }
+            if (!buffer4.loadFromFile("quick_fart_x.wav")) {
+                cout << ROJO << "Error al cargar sonido de lava" << RESET << endl;
+                _getch();
                 break;
             }
 
-            if (!robot.vivo) {
-                sound1.stop();
+            
+            Robot robot(true, 2, 2, 100.0f, 100.0f, 2, 3, 0, 4, 0, 0);
+            robot.matriz();
+
+            sound1.play();
+            sound1.setLooping(true);
+
+            
+            bool partidaActiva = true;
+            while (partidaActiva) {
+                system("cls");
+                robot.mostrarMapa();
+                robot.movimiento();
+                robot.vidaRobot();
+                robot.inventario();
+
+                // Verificar muerte por lava
+                if (robot.muerteQuemao()) {
+                    partidaActiva = false;
+                    continue;
+                }
+
+                // Verificar muerte por vida agotada
+                if (robot.muerte()) {
+                    partidaActiva = false;
+                    continue;
+                }
+
+                // Verificar victoria (3 tesoros recolectados)
+                if (robot.tesoro >= 3) {
+                    robot.animacionVictoria();
+                    partidaActiva = false;
+                    continue;
+                }
+
+                Sleep(10);
             }
 
+            sound1.stop();  
+            break;
+        }  
 
-            if (robot.tesoro == 3) {
-                robot.animacionVictoria();
-            }
-
-
-            Sleep(10);
-
-        }
-
-
-    break;
-
-
-    while (true) {
-
-
-        for (int sg = 0; sg <= 60; sg++) {
-            robot.segundos += 1;
+        case 4: {  
+            sound5.stop();
+            cout << "\n¡Gracias por jugar!\n";
             Sleep(1000);
+            return 0;  // Salir del programa
         }
 
-        if (robot.segundos == 60) {
-            robot.minutos++;
+        default: {
+            cout << ROJO << "\nOpción no válida. Presiona una tecla para continuar..." << RESET;
+            _getch();
+            break;
         }
-
+        }
     }
-
-   }
-
-
-    
-
 
     return 0;
 }
