@@ -193,41 +193,43 @@ public:
 
         };
 
-        while (true) {
+        bool salir = false;
+        int contador = 0;
+
+        while (!salir && contador < 10) {
             system("cls");
-
-           cout << VERDE << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-
+            cout << VERDE << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 
             for (int i = 0; i < 10; i++) {
                 cout << "\t\t\t\t\t\t\t\t\t\t";
-                for (int j = 0; j<83; j++) {
+                for (int j = 0; j < 83; j++) {
 
-                    if(victoria[i][j] == 't') {
-                    printf("\t");
+                    if (victoria[i][j] == 't') {
+                        printf("\t");
                     }
 
                     if (victoria[i][j] == '1') {
                         printf("█");
                     }
                     else {
+
                         cout << " ";
                     }
                 }
                 cout << "\n";
             }
 
-            cout << RESET;
+            cout << RESET << "\n\n\t\t\t\t\t\t\t\t\t\tPresiona cualquier tecla para volver al menú...";
 
             Sleep(300);
             system("cls");
-            Sleep(200);
 
             //skipea con cualquier tecla
             if (_kbhit()) break;
         }
 
-    
+        Sleep(200);
+        contador++;
         _getch();
     }
 
@@ -541,7 +543,8 @@ int main() {
         default: {
             cout << ROJO << "\nOpción no válida. Presiona una tecla para continuar..." << RESET;
             _getch();
-            break;
+        break;
+
         }
         }
     }
