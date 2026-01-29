@@ -16,11 +16,11 @@
 #include <SFML/Audio/Music.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
-
-
-
-
-
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 
 
@@ -59,8 +59,8 @@ void setupConsole() {
 
 
 
-SoundBuffer buffer1, buffer2, buffer3, buffer4, buffer5;
-Sound sound1(buffer1), sound2(buffer2), sound3(buffer3), sound4(buffer4), sound5(buffer5);
+SoundBuffer buffer1, buffer2, buffer3, buffer4, buffer5, buffer6, buffer7, buffer8;
+Sound sound1(buffer1), sound2(buffer2), sound3(buffer3), sound4(buffer4), sound5(buffer5), sound6(buffer6), sound7(buffer7), sound8(buffer8);
 
 class Robot {
 public:
@@ -167,7 +167,6 @@ public:
         
         
     }
-
     // ANIMACION VICTORIA
    void animacionVictoria() {
        
@@ -225,12 +224,15 @@ public:
             system("cls");
 
             //skipea con cualquier tecla
-            if (_kbhit()) break;
-        }
+            if (_kbhit()) {
+                _getch();
+                salir = true;
+            }
 
-        Sleep(200);
-        contador++;
-        _getch();
+            Sleep(200);
+            contador++;
+        }
+        
     }
 
     void matriz() {
@@ -319,6 +321,7 @@ public:
         // Verificar colisión con paredes ('C')
         if (jugadory >= 0 && jugadory < largo && jugadorx >= 0 && jugadorx < ancho) {
             if (mapa[jugadory][jugadorx] == 'C' || mapa[jugadory][jugadorx] == 'P') {
+                sound8.play();
                 switch (movimiento) {
                 case 'w': jugadory++; break;
                 case 'a': jugadorx++; break;
@@ -453,12 +456,35 @@ int main() {
     while (true) {
         system("cls");  // Limpiar pantalla ANTES de mostrar menú
 
-        
+      //Font font;
+      //if(!font.openFromFile("FiraCode-Bold.ttf")){
+      //
+      //};
+      //  
+      //  Text text(font);
+      //  text.setString("Hola ke ase");
+
+        cout <<"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t";
+
         cout << "1. JUGAR\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t";
         cout << "2. GUARDAR PARTIDA\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t";
         cout << "3. CARGAR PARTIDA\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t";
         cout << "4. SALIR\n\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t";
         cout << "Selecciona una opcion: ";
+
+
+        /*Texture texture;
+        if (!texture.loadFromFile("robot.png", false, sf::IntRect({ 10, 10 }, { 32, 32 })))
+        {
+            // error...
+        }
+
+        Sprite sprite(texture);*/
 
         int opcion;
         cin >> opcion;
@@ -468,7 +494,7 @@ int main() {
         case 1: {  
             sound5.stop();  // Detener música del menú
             setupConsole();
-
+            
             // Cargar recursos de audio (con validación)
             if (!buffer1.loadFromFile("1-11. Route 101_.mp3")) {
                 cout << ROJO << "Error al cargar musica de fondo" << RESET << endl;
@@ -490,7 +516,17 @@ int main() {
                 _getch();
                 break;
             }
-
+            if (!buffer7.loadFromFile("Fahhh.mp3")) {
+                cout << ROJO << "Error al cargar sonido de lava" << RESET << endl;
+                _getch();
+                break;
+            }
+            sound7.play();
+            if (!buffer8.loadFromFile("bonk.mp3")) {
+                cout << ROJO << "Error al cargar sonido de lava" << RESET << endl;
+                _getch();
+                break;
+            }
             
             Robot robot(true, 2, 2, 100.0f, 100.0f, 2, 3, 0, 4, 0, 0);
             robot.matriz();
@@ -535,6 +571,7 @@ int main() {
 
         case 4: {  
             sound5.stop();
+            sound7.play();
             cout << "\n¡Gracias por jugar!\n";
             Sleep(1000);
             return 0;  // Salir del programa
@@ -546,6 +583,7 @@ int main() {
         break;
 
         }
+
         }
     }
 
