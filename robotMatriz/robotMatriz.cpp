@@ -22,14 +22,8 @@
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Font.hpp>
 
-
-
-
-
 using namespace sf;
-
 using namespace std;
-
 
 // COLORES ANSI
 #define RESET   "\x1B[0m"
@@ -45,19 +39,12 @@ using namespace std;
 // Función para configurar la consola en UTF-8
 void setupConsole() {
     SetConsoleOutputCP(CP_UTF8);
-    // Opcional: para evitar problemas con caracteres especiales
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     DWORD dwMode = 0;
     GetConsoleMode(hOut, &dwMode);
     dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
     SetConsoleMode(hOut, dwMode);
 }
-
-//Clock reloj;
-//Time tiempo = reloj.getElapsedTime();
-//double tiempo_sincrono;
-
-
 
 SoundBuffer buffer1, buffer2, buffer3, buffer4, buffer5, buffer6, buffer7, buffer8;
 Sound sound1(buffer1), sound2(buffer2), sound3(buffer3), sound4(buffer4), sound5(buffer5), sound6(buffer6), sound7(buffer7), sound8(buffer8);
@@ -74,7 +61,7 @@ public:
 
     //CONSTRUCTOR
     Robot(bool v, int x, int y, float vida_, float vidaTot, int tes, int tesRes, int bom, int vr, int min, int sg) {
-        vivo = true;
+        vivo = v;
         jugadorx = x;
         jugadory = y;
         vida = vida_;
@@ -93,11 +80,12 @@ public:
                 mapa[i][j] = ' ';
     }
 
+    void guardarPartida(const string& nombreArchivo);
+    void cargarPartida(const string& nombreArchivo);
 
     // ANIMACION MUERTE
     void animacionMuerte() {
-        
-      sound1.stop();
+        sound1.stop();
 
         Music buffer;
         if (!buffer.openFromFile("darksouls.wav")) {
@@ -105,91 +93,14 @@ public:
         }
         else {
             buffer.play();
-        
         }
 
-
-        char muerte[5][83]= {
-
+        char muerte[5][83] = {
             {'0','0','1','1','1','0','0','0','0','1','0','0','0','0','0','1','0','1','0','0','0','0','1','1','0','0','t','0','1','1','1','0','0','0','1','0','0','0','1','0','0','0','1','1','0','0','1','1','0','0','0'},
             {'0','1','0','0','0','0','0','0','1','1','1','0','0','0','0','1','1','1','0','0','0','1','0','0','0','0','t','1','0','1','0','1','0','0','1','0','0','0','1','0','0','1','0','0','0','0','1','0','1','0','0'},
             {'0','1','0','1','1','1','0','0','1','0','1','0','0','0','1','0','1','0','1','0','0','1','1','1','0','0','t','1','1','0','1','1','0','0','0','1','0','1','0','0','0','1','1','1','0','0','1','0','1','0','0'},
             {'0','1','0','0','1','0','0','1','1','0','1','1','0','0','1','0','1','0','1','0','0','1','0','0','0','0','t','1','0','1','0','1','0','0','0','1','0','1','0','0','0','1','0','0','0','0','1','1','1','0','0'},
             {'0','0','1','1','1','0','0','1','0','0','0','1','0','0','1','0','1','0','1','0','0','0','1','1','0','0','t','0','1','1','1','0','0','0','0','0','1','0','0','0','0','0','1','1','0','0','1','0','0','1','0'}
-
-
-
-        };
-
-		bool salir = false;
-		int contador = 0; //Variable para limitar la animacion
-
-
-        while (!salir && contador < 10) {
-            system("cls");
-            cout << ROJO << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-
-           for (int i = 0; i <5; i++) {
-               cout << "\t\t\t\t\t\t\t\t\t\t";
-               for (int j = 0; j < 83; j++) {
-
-                   if (muerte[i][j] == 't') {
-                       printf("\t");
-                   }
-
-                   if (muerte[i][j] == '1') {
-                       printf("█");
-                   }
-                   else {
-                       cout << " ";
-                   }
-               }
-               cout << "\n";
-           }
-
-            cout << RESET << "\n\n\t\t\t\t\t\t\t\t\t\tPresiona cualquier tecla para volver al menú...";
-
-            Sleep(300);
-            system("cls");
-
-           
-
-            if (_kbhit()) {       // ¿Se presionó una tecla?
-                _getch();         // Consumir la tecla
-                salir = true;     // ¡SALIR DEL BUCLE!
-            }
-
-            Sleep(200);
-			contador++; // Incrementar el contador
-
-            
-        }
-        
-        
-    }
-    // ANIMACION VICTORIA
-   void animacionVictoria() {
-       
-       sound1.stop();
-
-       Music buffer;
-       if(!buffer.openFromFile("victoria.wav")){
-           cout << "Error al cargar musica!" << endl;
-       }
-       else {
-           buffer.play();
-		   buffer.setLooping(true); //Entra en bucle la musica de victoria
-         
-       }
-
-        char victoria[10][83] = {
-            {'0','1','1','0','0','1','1','t','0','0','1','1','1','0','t','0','1','0','0','1','t','0','1','0','0','0','1','t','0','1','1','1','1','1','t','0','1','0','0','1'},
-            {'0','1','1','0','0','1','1','t','0','1','0','1','0','1','t','0','1','0','0','1','t','0','1','0','0','0','1','t','0','0','0','1','0','0','t','0','1','1','0','1'},
-            {'0','1','1','1','1','1','1','t','0','1','1','0','1','1','t','0','1','0','0','1','t','0','1','0','0','0','1','t','0','0','1','1','1','0','t','0','1','1','0','1'},
-            {'0','0','1','1','1','1','0','t','0','1','1','0','1','1','t','0','1','0','0','1','t','0','1','0','1','0','1','t','0','0','1','1','1','0','t','0','1','0','1','1'},
-            {'0','0','0','1','1','0','0','t','0','1','0','1','0','1','t','0','1','0','0','1','t','0','1','1','0','1','1','t','0','0','0','1','0','0','t','0','1','0','1','1'},
-            {'0','0','0','1','1','0','0','t','0','0','1','1','1','0','t','0','1','1','1','1','t','0','1','1','0','1','1','t','0','1','1','1','1','1','t','0','1','0','0','1'}
-
         };
 
         bool salir = false;
@@ -197,21 +108,18 @@ public:
 
         while (!salir && contador < 10) {
             system("cls");
-            cout << VERDE << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+            cout << ROJO << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 5; i++) {
                 cout << "\t\t\t\t\t\t\t\t\t\t";
                 for (int j = 0; j < 83; j++) {
-
-                    if (victoria[i][j] == 't') {
+                    if (muerte[i][j] == 't') {
                         printf("\t");
                     }
-
-                    if (victoria[i][j] == '1') {
+                    else if (muerte[i][j] == '1') {
                         printf("█");
                     }
                     else {
-
                         cout << " ";
                     }
                 }
@@ -223,16 +131,78 @@ public:
             Sleep(300);
             system("cls");
 
-            //skipea con cualquier tecla
             if (_kbhit()) {
                 _getch();
+                sound5.play();
+                sound5.setLooping(true);
                 salir = true;
             }
 
             Sleep(200);
             contador++;
         }
-        
+    }
+
+    // ANIMACION VICTORIA
+    void animacionVictoria() {
+        sound1.stop();
+
+        Music buffer;
+        if (!buffer.openFromFile("victoria.wav")) {
+            cout << "Error al cargar musica!" << endl;
+        }
+        else {
+            buffer.play();
+            buffer.setLooping(true);
+        }
+
+        char victoria[6][83] = {
+            {'0','1','1','0','0','1','1','t','0','0','1','1','1','0','t','0','1','0','0','1','t','0','1','0','0','0','1','t','0','1','1','1','1','1','t','0','1','0','0','1'},
+            {'0','1','1','0','0','1','1','t','0','1','0','1','0','1','t','0','1','0','0','1','t','0','1','0','0','0','1','t','0','0','0','1','0','0','t','0','1','1','0','1'},
+            {'0','1','1','1','1','1','1','t','0','1','1','0','1','1','t','0','1','0','0','1','t','0','1','0','0','0','1','t','0','0','1','1','1','0','t','0','1','1','0','1'},
+            {'0','0','1','1','1','1','0','t','0','1','1','0','1','1','t','0','1','0','0','1','t','0','1','0','1','0','1','t','0','0','1','1','1','0','t','0','1','0','1','1'},
+            {'0','0','0','1','1','0','0','t','0','1','0','1','0','1','t','0','1','0','0','1','t','0','1','1','0','1','1','t','0','0','0','1','0','0','t','0','1','0','1','1'},
+            {'0','0','0','1','1','0','0','t','0','0','1','1','1','0','t','0','1','1','1','1','t','0','1','1','0','1','1','t','0','1','1','1','1','1','t','0','1','0','0','1'}
+        };
+
+        bool salir = false;
+        int contador = 0;
+
+        while (!salir && contador < 10) {
+            system("cls");
+            cout << VERDE << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+
+            for (int i = 0; i < 6; i++) {
+                cout << "\t\t\t\t\t\t\t\t\t\t";
+                for (int j = 0; j < 83; j++) {
+                    if (victoria[i][j] == 't') {
+                        printf("\t");
+                    }
+                    else if (victoria[i][j] == '1') {
+                        printf("█");
+                    }
+                    else {
+                        cout << " ";
+                    }
+                }
+                cout << "\n";
+            }
+
+            cout << RESET << "\n\n\t\t\t\t\t\t\t\t\t\tPresiona cualquier tecla para volver al menú...";
+
+            Sleep(300);
+            system("cls");
+
+            if (_kbhit()) {
+                _getch();
+                sound5.play();
+                sound5.setLooping(true);
+                salir = true;
+            }
+
+            Sleep(200);
+            contador++;
+        }
     }
 
     void matriz() {
@@ -277,18 +247,18 @@ public:
             << "\tTesoro Restantes: " << tesoroRestante
             << "\tBaterías Restantes: " << vidasRestantes << "\n";
 
-      
-
-        // Mostrar controles debajo del mapa
-        cout << "paso: w,a,s,d    salto: i,j,k,l    bomba: g\n";
+        cout << "Controles: w,a,s,d (mover) | i,j,k,l (saltar) | g (bomba) | q (guardar)\n";
         cout << RESET;
     }
 
-
-    void movimiento() {
+    char movimiento() {
         char tecla = ' ';
         while (!_kbhit());
         tecla = _getch();
+
+        if (tecla == 'q' || tecla == 'Q') {
+            return 'q';
+        }
 
         if (vivo) mapa[jugadory][jugadorx] = ' ';
 
@@ -306,19 +276,17 @@ public:
         case 'l': jugadorx += 2; vida -= 1.5f; break;
 
         case 'g':
-
             if (bomba > 0) { sound2.play(); }
             explotarBomba();
-            
-
-            if (bomba < 0) {
-                bomba = 0;
-            }
+            if (bomba < 0) bomba = 0;
             break;
 
+        default:
+            if (vivo) mapa[jugadory][jugadorx] = 'R';
+            return tecla;
         }
 
-        // Verificar colisión con paredes ('C')
+        // Verificar colisión con paredes ('C' o 'P')
         if (jugadory >= 0 && jugadory < largo && jugadorx >= 0 && jugadorx < ancho) {
             if (mapa[jugadory][jugadorx] == 'C' || mapa[jugadory][jugadorx] == 'P') {
                 sound8.play();
@@ -339,24 +307,24 @@ public:
         if (jugadory == 3 && jugadorx == 115) {
             mapa[4][115] = 'A';
         }
+
+        return tecla;
     }
 
     void vidaRobot() {
         if (!vivo) return;
 
         if (mapa[jugadory][jugadorx] == 'v') {
-
             sound3.play();
-
             vida += (vidaTotal * 15) / 100.0f;
             vidasRestantes--;
+            mapa[jugadory][jugadorx] = ' ';
         }
         if (mapa[jugadory][jugadorx] == 'V') {
-
             sound3.play();
-
             vida += (vidaTotal * 20) / 100.0f;
             vidasRestantes--;
+            mapa[jugadory][jugadorx] = ' ';
         }
         if (vida > 100) vida = 100;
     }
@@ -365,7 +333,6 @@ public:
         if (vida <= 0) {
             vivo = false;
             system("cls");
-			//mostrarMapa(); No hace falta mostrar el mapa muerto
             animacionMuerte();
             return true;
         }
@@ -376,52 +343,35 @@ public:
         if (!vivo) return false;
         if (jugadory >= 0 && jugadory < largo && jugadorx >= 0 && jugadorx < ancho) {
             if (mapa[jugadory][jugadorx] == 'A') {
-                
                 sound4.play();
                 system("cls");
-
-				//No hace falta mostrar el mapa muerto
-                //mapa[jugadory][jugadorx] = 'A';
-                //mostrarMapa();
-
                 cout << "GAME OVER! Has caído en la lava\n";
                 Sleep(100);
                 animacionMuerte();
                 return true;
-               
             }
         }
         return false;
-
     }
 
     void inventario() {
         if (!vivo) return;
 
         if (mapa[jugadory][jugadorx] == 'B') {
-
             sound3.play();
-
             bomba++;
             mapa[jugadory][jugadorx] = ' ';
         }
         if (mapa[jugadory][jugadorx] == 'M') {
-
             sound3.play();
-
             tesoro++;
             tesoroRestante--;
             mapa[jugadory][jugadorx] = ' ';
         }
-
-
     }
-    
-
 
     void explotarBomba() {
         if (bomba >= 1) {
-
             for (int i = jugadory - 3; i <= jugadory + 3; i++) {
                 for (int j = jugadorx - 3; j <= jugadorx + 3; j++) {
                     if (i >= 0 && i < largo && j >= 0 && j < ancho) {
@@ -438,124 +388,161 @@ public:
             Sleep(300);
         }
     }
-
-
 };
 
-int main() {
+// Implementación de guardar/cargar
+void Robot::guardarPartida(const string& nombreArchivo) {
+    ofstream archivo(nombreArchivo);
+    if (!archivo.is_open()) {
+        cerr << ROJO << "Error al abrir el archivo para guardar: " << nombreArchivo << RESET << endl;
+        return;
+    }
 
+    archivo << jugadorx << "\n";
+    archivo << jugadory << "\n";
+    archivo << vida << "\n";
+    archivo << vidaTotal << "\n";
+    archivo << bomba << "\n";
+    archivo << tesoro << "\n";
+    archivo << tesoroRestante << "\n";
+    archivo << vidasRestantes << "\n";
+    archivo << (vivo ? 1 : 0) << "\n";
+    archivo << minutos << "\n";
+    archivo << segundos << "\n";
+    archivo << largo << "\n";
+    archivo << ancho << "\n";
+
+    for (int i = 0; i < largo; i++) {
+        for (int j = 0; j < ancho; j++) {
+            archivo << mapa[i][j];
+        }
+        archivo << "\n";
+    }
+
+    archivo.close();
+    cout << VERDE << "Partida guardada en: " << nombreArchivo << RESET << endl;
+}
+
+void Robot::cargarPartida(const string& nombreArchivo) {
+    ifstream archivo(nombreArchivo);
+    if (!archivo.is_open()) {
+        cerr << ROJO << "Error al abrir el archivo para cargar: " << nombreArchivo << RESET << endl;
+        return;
+    }
+
+    archivo >> jugadorx;
+    archivo >> jugadory;
+    archivo >> vida;
+    archivo >> vidaTotal;
+    archivo >> bomba;
+    archivo >> tesoro;
+    archivo >> tesoroRestante;
+    archivo >> vidasRestantes;
+
+    int vivoInt;
+    archivo >> vivoInt;
+    vivo = (vivoInt == 1);
+
+    archivo >> minutos;
+    archivo >> segundos;
+    archivo >> largo;
+    archivo >> ancho;
+
+    string linea;
+    getline(archivo, linea); // consumir salto tras 'ancho'
+
+    for (int i = 0; i < largo; i++) {
+        getline(archivo, linea);
+        for (int j = 0; j < ancho; j++) {
+            if (j < (int)linea.size()) {
+                mapa[i][j] = linea[j];
+            }
+            else {
+                mapa[i][j] = ' ';
+            }
+        }
+    }
+
+    archivo.close();
+    cout << VERDE << "Partida cargada desde: " << nombreArchivo << RESET << endl;
+}
+
+// ==================== MAIN ====================
+int main() {
     // Cargar música del menú
     if (!buffer5.loadFromFile("inicio.wav")) {
         cerr << "Error: No se pudo cargar inicio.wav" << endl;
         return -1;
     }
+    sound5.setBuffer(buffer5);
     sound5.setLooping(true);
     sound5.play();
 
     // BUCLE DEL MENÚ PRINCIPAL
     while (true) {
-        system("cls");  // Limpiar pantalla ANTES de mostrar menú
-
-      //Font font;
-      //if(!font.openFromFile("FiraCode-Bold.ttf")){
-      //
-      //};
-      //  
-      //  Text text(font);
-      //  text.setString("Hola ke ase");
-
-        cout <<"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-        cout << "\t\t\t\t\t\t\t\t\t\t";
-
-        cout << "1. JUGAR\n";
-        cout << "\t\t\t\t\t\t\t\t\t\t";
-        cout << "2. GUARDAR PARTIDA\n";
-        cout << "\t\t\t\t\t\t\t\t\t\t";
-        cout << "3. CARGAR PARTIDA\n";
-        cout << "\t\t\t\t\t\t\t\t\t\t";
-        cout << "4. SALIR\n\n";
-        cout << "\t\t\t\t\t\t\t\t\t\t";
-        cout << "Selecciona una opcion: ";
-
-
-        /*Texture texture;
-        if (!texture.loadFromFile("robot.png", false, sf::IntRect({ 10, 10 }, { 32, 32 })))
-        {
-            // error...
-        }
-
-        Sprite sprite(texture);*/
+        system("cls");
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t1. JUGAR\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t2. GUARDAR PARTIDA\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t3. CARGAR PARTIDA\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t4. SALIR\n\n";
+        cout << "\t\t\t\t\t\t\t\t\t\tSelecciona una opcion: ";
 
         int opcion;
         cin >> opcion;
-        
 
         switch (opcion) {
-        case 1: {  
-            sound5.stop();  // Detener música del menú
+        case 1: {
+            sound5.stop();
             setupConsole();
-            
-            // Cargar recursos de audio (con validación)
-            if (!buffer1.loadFromFile("1-11. Route 101_.mp3")) {
-                cout << ROJO << "Error al cargar musica de fondo" << RESET << endl;
-                _getch();
-                break;  // Volver al menú
-            }
-            if (!buffer2.loadFromFile("explosion-80108.wav")) {
-                cout << ROJO << "Error al cargar sonido de explosion" << RESET << endl;
-                _getch();
-                break;
-            }
-            if (!buffer3.loadFromFile("objeto.wav")) {
-                cout << ROJO << "Error al cargar sonido de objeto" << RESET << endl;
+
+            // Cargar sonidos
+            bool ok = true;
+            if (!buffer1.loadFromFile("1-11. Route 101_.mp3")) { cout << ROJO << "Error al cargar musica de fondo" << RESET << endl; ok = false; }
+            if (!buffer2.loadFromFile("explosion-80108.wav")) { cout << ROJO << "Error al cargar sonido de explosion" << RESET << endl; ok = false; }
+            if (!buffer3.loadFromFile("objeto.wav")) { cout << ROJO << "Error al cargar sonido de objeto" << RESET << endl; ok = false; }
+            if (!buffer4.loadFromFile("quick_fart_x.wav")) { cout << ROJO << "Error al cargar sonido de lava" << RESET << endl; ok = false; }
+            if (!buffer8.loadFromFile("bonk.mp3")) { cout << ROJO << "Error al cargar sonido de colisión" << RESET << endl; ok = false; }
+
+            if (!ok) {
                 _getch();
                 break;
             }
-            if (!buffer4.loadFromFile("quick_fart_x.wav")) {
-                cout << ROJO << "Error al cargar sonido de lava" << RESET << endl;
-                _getch();
-                break;
-            }
-            if (!buffer7.loadFromFile("Fahhh.mp3")) {
-                cout << ROJO << "Error al cargar sonido de lava" << RESET << endl;
-                _getch();
-                break;
-            }
-            sound7.play();
-            if (!buffer8.loadFromFile("bonk.mp3")) {
-                cout << ROJO << "Error al cargar sonido de lava" << RESET << endl;
-                _getch();
-                break;
-            }
-            
-            Robot robot(true, 2, 2, 100.0f, 100.0f, 2, 3, 0, 4, 0, 0);
+
+            // Asignar buffers a los sonidos
+            sound1.setBuffer(buffer1);
+            sound2.setBuffer(buffer2);
+            sound3.setBuffer(buffer3);
+            sound4.setBuffer(buffer4);
+            sound8.setBuffer(buffer8);
+
+            Robot robot(true, 2, 2, 100.0f, 100.0f, 0, 3, 0, 4, 0, 0);
             robot.matriz();
 
-            sound1.play();
             sound1.setLooping(true);
+            sound1.play();
 
-            
             bool partidaActiva = true;
             while (partidaActiva) {
                 system("cls");
                 robot.mostrarMapa();
-                robot.movimiento();
+                char tecla = robot.movimiento();
+
+                if (tecla == 'q' || tecla == 'Q') {
+                    robot.guardarPartida("partida_guardada.txt");
+                    cout << "\nPartida guardada. Presiona cualquier tecla para continuar...\n";
+                    _getch();
+                    continue;
+                }
+
                 robot.vidaRobot();
                 robot.inventario();
 
-                // Verificar muerte por lava
-                if (robot.muerteQuemao()) {
+                if (robot.muerteQuemao() || robot.muerte()) {
                     partidaActiva = false;
                     continue;
                 }
 
-                // Verificar muerte por vida agotada
-                if (robot.muerte()) {
-                    partidaActiva = false;
-                    continue;
-                }
-
-                // Verificar victoria (3 tesoros recolectados)
                 if (robot.tesoro >= 3) {
                     robot.animacionVictoria();
                     partidaActiva = false;
@@ -565,25 +552,95 @@ int main() {
                 Sleep(10);
             }
 
-            sound1.stop();  
+            sound1.stop();
             break;
-        }  
+        }
 
-        case 4: {  
+        case 2: {
+            // Guardar partida desde menú (opcional, aunque ya se puede en juego)
+            Robot dummy(false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            dummy.guardarPartida("partida_guardada.txt");
+            cout << "\nPartida guardada manualmente.\n";
+            _getch();
+            break;
+        }
+
+        case 3: {
             sound5.stop();
-            sound7.play();
+            setupConsole();
+
+            // Cargar sonidos
+            bool ok = true;
+            if (!buffer1.loadFromFile("1-11. Route 101_.mp3")) { ok = false; }
+            if (!buffer2.loadFromFile("explosion-80108.wav")) { ok = false; }
+            if (!buffer3.loadFromFile("objeto.wav")) { ok = false; }
+            if (!buffer4.loadFromFile("quick_fart_x.wav")) { ok = false; }
+            if (!buffer8.loadFromFile("bonk.mp3")) { ok = false; }
+
+            if (!ok) {
+                cout << ROJO << "Error al cargar recursos de audio." << RESET << endl;
+                _getch();
+                break;
+            }
+
+            sound1.setBuffer(buffer1);
+            sound2.setBuffer(buffer2);
+            sound3.setBuffer(buffer3);
+            sound4.setBuffer(buffer4);
+            sound8.setBuffer(buffer8);
+
+            Robot robot(false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            robot.cargarPartida("partida_guardada.txt");
+
+            sound1.setLooping(true);
+            sound1.play();
+
+            bool partidaActiva = true;
+            while (partidaActiva) {
+                system("cls");
+                robot.mostrarMapa();
+                char tecla = robot.movimiento();
+
+                if (tecla == 'q' || tecla == 'Q') {
+                    robot.guardarPartida("partida_guardada.txt");
+                    cout << "\nPartida guardada. Presiona cualquier tecla para continuar...\n";
+                    _getch();
+                    continue;
+                }
+
+                robot.vidaRobot();
+                robot.inventario();
+
+                if (robot.muerteQuemao() || robot.muerte()) {
+                    partidaActiva = false;
+                    continue;
+                }
+
+                if (robot.tesoro >= 3) {
+                    robot.animacionVictoria();
+                    partidaActiva = false;
+                    continue;
+                }
+
+                Sleep(10);
+            }
+
+            sound1.stop();
+            break;
+        }
+
+        case 4: {
+            sound5.stop();
             cout << "\n¡Gracias por jugar!\n";
             Sleep(1000);
-            return 0;  // Salir del programa
+            return 0;
         }
 
         default: {
             cout << ROJO << "\nOpción no válida. Presiona una tecla para continuar..." << RESET;
             _getch();
-        break;
-
+            break;
         }
-
         }
     }
 
