@@ -80,8 +80,8 @@ public:
                 mapa[i][j] = ' ';
     }
 
-    void guardarPartida(const string& nombreArchivo);
-    void cargarPartida(const string& nombreArchivo);
+    void guardarPartida(const string& mapaGuardado);
+    void cargarPartida(const string& cargarMapa);
 
     // ANIMACION MUERTE
     void animacionMuerte() {
@@ -391,12 +391,13 @@ public:
 };
 
 // Implementación de guardar/cargar
-void Robot::guardarPartida(const string& nombreArchivo) {
-    ofstream archivo(nombreArchivo);
+void Robot::guardarPartida(const string& mapaGuardado) {
+    ofstream archivo(mapaGuardado);
     if (!archivo.is_open()) {
-        cerr << ROJO << "Error al abrir el archivo para guardar: " << nombreArchivo << RESET << endl;
+        cout << ROJO << "Error al abrir el archivo para guardar: " << mapaGuardado << RESET << endl;
         return;
     }
+
 
     archivo << jugadorx << "\n";
     archivo << jugadory << "\n";
@@ -420,13 +421,13 @@ void Robot::guardarPartida(const string& nombreArchivo) {
     }
 
     archivo.close();
-    cout << VERDE << "Partida guardada en: " << nombreArchivo << RESET << endl;
+    cout << VERDE << "Partida guardada en: " << mapaGuardado << RESET << endl;
 }
 
-void Robot::cargarPartida(const string& nombreArchivo) {
-    ifstream archivo(nombreArchivo);
+void Robot::cargarPartida(const string& cargarMapa) {
+    ifstream archivo(cargarMapa);
     if (!archivo.is_open()) {
-        cerr << ROJO << "Error al abrir el archivo para cargar: " << nombreArchivo << RESET << endl;
+        cout << ROJO << "Error al abrir el archivo para cargar: " << cargarMapa << RESET << endl;
         return;
     }
 
@@ -464,7 +465,7 @@ void Robot::cargarPartida(const string& nombreArchivo) {
     }
 
     archivo.close();
-    cout << VERDE << "Partida cargada desde: " << nombreArchivo << RESET << endl;
+    cout << VERDE << "Partida cargada desde: " << cargarMapa << RESET << endl;
 }
 
 // ==================== MAIN ====================
@@ -483,7 +484,7 @@ int main() {
         system("cls");
         cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
         cout << "\t\t\t\t\t\t\t\t\t\t1. JUGAR\n";
-        cout << "\t\t\t\t\t\t\t\t\t\t2. GUARDAR PARTIDA\n";
+        cout << "\t\t\t\t\t\t\t\t\t\t2. ESTADISTICAS\n";
         cout << "\t\t\t\t\t\t\t\t\t\t3. CARGAR PARTIDA\n";
         cout << "\t\t\t\t\t\t\t\t\t\t4. SALIR\n\n";
         cout << "\t\t\t\t\t\t\t\t\t\tSelecciona una opcion: ";
@@ -557,12 +558,7 @@ int main() {
         }
 
         case 2: {
-            // Guardar partida desde menú (opcional, aunque ya se puede en juego)
-            Robot dummy(false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-            dummy.guardarPartida("partida_guardada.txt");
-            cout << "\nPartida guardada manualmente.\n";
-            _getch();
-            break;
+            
         }
 
         case 3: {
